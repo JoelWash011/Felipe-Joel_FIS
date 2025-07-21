@@ -1,5 +1,5 @@
 #Turn code completion off when starting this assignment
-# Do not use co-pilot to complete this assignment.
+# Do not use co-pilot to complete this assignment..
 import random
 import datetime
 
