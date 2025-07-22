@@ -1,0 +1,51 @@
+CustomerID,CustomerName,ContactEmail
+CUST001,Alpha Corp,contact@alphacorp.com
+CUST002,Beta Innovations,info@betainnovations.net
+CUST003,Gamma Solutions,sales@gammasolutions.org
+CUST004,Delta Enterprises,support@deltaent.com
+CUST005,Epsilon Group,admin@epsilongroup.co
+CUST006,Zeta Industries,hello@zetaindustries.biz
+CUST007,Eta Company,contact@etacompany.com
+CUST008,Theta Systems,info@thetasystems.net
+CUST009,Iota Corporation,sales@iotacorp.org
+CUST010,Kappa Holdings,support@kappaholdings.com
+CUST011,Lambda Ventures,admin@lambdaventures.co
+CUST012,Mu Technologies,hello@mutech.biz
+CUST013,Nu Innovations,contact@nuinnovations.com
+CUST014,Xi Solutions,info@xisolutions.net
+CUST015,Omicron Group,sales@omicrongroup.org
+CUST016,Pi Enterprises,support@pient.com
+CUST017,Rho Company,admin@rhocompany.co
+CUST018,Sigma Systems,hello@sigmasystems.biz
+CUST019,Tau Corporation,contact@taucorp.com
+CUST020,Upsilon Holdings,info@upsilonholdings.net
+CUST021,Phi Ventures,sales@phiventures.org
+CUST022,Chi Technologies,support@chitech.com
+CUST023,Psi Innovations,admin@psiinnovations.co
+CUST024,Omega Solutions,hello@omegasolutions.biz
+CUST025,Acme Corp,acme@email.com
+CUST026,Globex Inc,globex@email.com
+CUST027,Cyberdyne Systems,cyberdyne@email.com
+CUST028,Tyrell Corporation,tyrell@email.com
+CUST029,Weyland-Yutani,weyland@email.com
+CUST030,Stark Industries,stark@email.com
+CUST031,Wayne Enterprises,wayne@email.com
+CUST032,Oscorp,oscorp@email.com
+CUST033,Umbrella Corp,umbrella@email.com
+CUST034,Gringotts Bank,gringotts@email.com
+CUST035,Wonka Industries,wonka@email.com
+CUST036,Dunder Mifflin,dunder@email.com
+CUST037,Pied Piper,piedpiper@email.com
+CUST038,Hooli,hooli@email.com
+CUST039,Initech,initech@email.com
+CUST040,Soylent Corp,soylent@email.com
+CUST041,MomCorp,momcorp@email.com
+CUST042,Virtucon,virtucon@email.com
+CUST043,Omni Consumer Products,ocp@email.com
+CUST044,Sirius Cybernetics,sirius@email.com
+CUST045,SpaceX,elon@spacex.com
+CUST046,Tesla Inc,tesla@tesla.com
+CUST047,Amazon.com,amazon@amazon.com
+CUST048,Google LLC,google@google.com
+CUST049,Apple Inc,apple@apple.com
+CUST050,Microsoft Corp,microsoft@microsoft.com

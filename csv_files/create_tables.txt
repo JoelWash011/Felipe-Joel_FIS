@@ -1,0 +1,11 @@
+"CREATE TABLE INVENTORY (MaterialID TEXT PRIMARY KEY, MaterialName TEXT, Quantity INTEGER, ReorderAmount INTEGER, Location TEXT);",
+"CREATE TABLE SUPPLIES (SupplyID TEXT PRIMARY KEY, VendorID TEXT, MaterialID TEXT, UnitPrice REAL);",
+"CREATE TABLE MATERIAL_ORDER (MaterialOrderID TEXT PRIMARY KEY, MaterialID TEXT, SupplyID TEXT, InOrOut TEXT, Quantity INTEGER);",
+"CREATE TABLE CUSTOMER (CustomerID TEXT PRIMARY KEY, CustomerName TEXT, ContactEmail TEXT);",
+"CREATE TABLE CUSTOMER_ORDER (CustomerOrderID TEXT PRIMARY KEY, CustomerID TEXT, MaterialOrderID TEXT, CustomerOrderDate TEXT, CustomerOrderTotal REAL, CustomerOrderStatus TEXT);",
+"CREATE TABLE CUSTOMER_BILL (BillID TEXT PRIMARY KEY, CustomerOrderID TEXT, CustomerID TEXT, BillDate TEXT, DueDate TEXT, TotalAmountBilled REAL, TotalAmountPaid REAL);",
+"CREATE TABLE CUSTOMER_PAYMENT (CustomerPaymentID TEXT PRIMARY KEY, BillID TEXT, PaymentDate TEXT, AmountPaid REAL);",
+"CREATE TABLE VENDOR (VendorID TEXT PRIMARY KEY, VendorName TEXT, VendorEmail TEXT);",
+"CREATE TABLE VENDOR_ORDER (VendorOrderID TEXT PRIMARY KEY, VendorID TEXT, MaterialOrderID TEXT, VendorOrderDate TEXT, VendorOrderTotal REAL, VendorOrderStatus TEXT);",
+"CREATE TABLE VENDOR_INVOICE (InvoiceID TEXT PRIMARY KEY, VendorOrderID TEXT, VendorInvoiceDate TEXT, VendorInvoiceDueDate TEXT, VendorInvoiceTotalAmount REAL, VendorInvoicePaymentStatus TEXT, VendorInvoiceDatePaid TEXT);",
+"CREATE TABLE VENDOR_PAYMENT (VendorPaymentID TEXT PRIMARY KEY, InvoiceID TEXT, VendorPaymentDate TEXT, VendorAmountPaid REAL);"

@@ -1,0 +1,51 @@
+MaterialID,MaterialName,Quantity,ReorderAmount,Location
+MAT001,Steel Rods,150,50,Warehouse A
+MAT002,Copper Wire,230,75,Warehouse B
+MAT003,Aluminum Sheets,90,30,Warehouse A
+MAT004,Plastic Pellets,400,100,Warehouse C
+MAT005,Rubber Gaskets,120,40,Warehouse B
+MAT006,Ceramic Tiles,80,25,Warehouse A
+MAT007,Glass Panels,60,20,Warehouse C
+MAT008,Wood Planks,300,80,Warehouse B
+MAT009,PVC Pipes,250,60,Warehouse A
+MAT010,Fiberglass Mesh,180,50,Warehouse C
+MAT011,Nylon Rope,110,35,Warehouse B
+MAT012,Carbon Fiber,70,20,Warehouse A
+MAT013,Silicone Sealant,350,90,Warehouse C
+MAT014,Epoxy Resin,95,30,Warehouse B
+MAT015,Acrylic Sheets,130,45,Warehouse A
+MAT016,Brass Fittings,200,60,Warehouse C
+MAT017,Stainless Steel Screws,500,150,Warehouse B
+MAT018,Zinc Plating Solution,75,25,Warehouse A
+MAT019,Titanium Bars,40,15,Warehouse C
+MAT020,Polypropylene Film,280,70,Warehouse B
+MAT021,Neoprene Sheeting,100,30,Warehouse A
+MAT022,Teflon Coating,55,20,Warehouse C
+MAT023,Graphite Powder,170,50,Warehouse B
+MAT024,Lead Ingots,85,25,Warehouse A
+MAT025,Nickel Alloys,65,20,Warehouse C
+MAT026,Chromium Plates,140,40,Warehouse B
+MAT027,Cobalt Powder,30,10,Warehouse A
+MAT028,Molybdenum Wire,90,30,Warehouse C
+MAT029,Tungsten Filaments,115,35,Warehouse B
+MAT030,Platinum Catalysts,25,10,Warehouse A
+MAT031,Palladium Sheets,15,5,Warehouse C
+MAT032,Silver Contacts,220,60,Warehouse B
+MAT033,Gold Plating Solution,10,5,Warehouse A
+MAT034,Mica Sheets,160,45,Warehouse C
+MAT035,Asbestos Free Gaskets,190,55,Warehouse B
+MAT036,Polyurethane Foam,320,80,Warehouse A
+MAT037,Expanded Polystyrene,270,70,Warehouse C
+MAT038,Polycarbonate Film,105,30,Warehouse B
+MAT039,Vinyl Sheeting,240,65,Warehouse A
+MAT040,Butyl Rubber,80,25,Warehouse C
+MAT041,Viton O-Rings,130,40,Warehouse B
+MAT042,Silicon Carbide,70,20,Warehouse A
+MAT043,Alumina Powder,180,50,Warehouse C
+MAT044,Zirconia Ceramics,95,30,Warehouse B
+MAT045,Boron Nitride,50,15,Warehouse A
+MAT046,Gallium Arsenide,35,10,Warehouse C
+MAT047,Indium Tin Oxide,120,35,Warehouse B
+MAT048,Cadmium Telluride,45,15,Warehouse A
+MAT049,Selenium Powder,60,20,Warehouse C
+MAT050,Tellurium Pellets,20,8,Warehouse B
