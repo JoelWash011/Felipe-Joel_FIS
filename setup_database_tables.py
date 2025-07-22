@@ -186,7 +186,3 @@ if __name__ == '__main__':
         print(connection.execute(f'Select * from {table}').fetchall())
     connection.close()
 
-
-
-
-
