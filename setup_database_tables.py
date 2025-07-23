@@ -1,5 +1,5 @@
 import sqlite3
-import os
+import os,csv
 
 def create_database(filename):
     """ create a database connection to an SQLite database """
@@ -7,7 +7,7 @@ def create_database(filename):
     try:
         connection = sqlite3.connect(filename)
     except sqlite3.Error as e:
-        print(e+filename)
+        print(e)
     else:
         print(f'Created the database file. - {filename}')
     finally:
@@ -86,7 +86,6 @@ def read_tables(filename):
     my_cursor = connection.execute(sql_tables_list)
     print(my_cursor.fetchall())
 
-
     my_cursor.execute('select * from INVENTORY')
     rows = my_cursor.fetchall()
     print(rows)
@@ -120,6 +119,9 @@ def delete_records(filename):
         print(e)
     else:
         print('Delete completed')
+    finally:
+        if connection:
+            connection.close()
 
 def update_table(filename):
     connection = sqlite3.connect(filename)
@@ -139,49 +141,78 @@ def update_table(filename):
         print(e)
     else:
         print('Update completed')
+    finally:
+        if connection:
+            connection.close()
 
-def bulk_import(filename):
-    connection = sqlite3.connect(filename)
-    my_cursor = connection.cursor()
-#Viewing the tables in the database
-# Create a table
-    my_cursor.execute('''CREATE TABLE IF NOT EXISTS inventory
-               (id INTEGER PRIMARY KEY, name TEXT, quantity INTEGER)''')
-    connection.commit()
-    data = [(1, 'Apple', 50),
-        (2, 'Banana', 100),
-        (3, 'Cherry', 150)]
-# Perform bulk insert
-    my_cursor.executemany('INSERT INTO inventory VALUES (?,?,?)', data)
-    connection.commit()
+def bulk_import(filename,tables):
+
+    for table in tables:
+        data = []
+        num_columns = 0
+        filepath = os.path.dirname(os.path.abspath(__file__))+'/csv_files/'+table.lower()+'.csv'
+        with open(filepath, 'r', newline='') as inputfile:
+            reader = csv.DictReader(inputfile)
+            fieldnames = reader.fieldnames
+            if fieldnames:
+                num_columns = len(fieldnames)
+            for row in reader:
+                ordered_values = tuple(row[col] for col in fieldnames) 
+                data.append(ordered_values)
+        #print(data)
+        connection = sqlite3.connect(filename)
+        my_cursor = connection.cursor()
+
+        #calculate the ? marks string
+        placeholders_string = ",".join(["?"] * num_columns)
+
+    # Perform bulk insert
+        try:
+            my_cursor.executemany(f'INSERT INTO {table.lower()} VALUES ({placeholders_string})', data)
+            connection.commit()
+        except sqlite3.Error as e:
+            print(e)
+        else:
+            print("Import completed for "+table.lower())
+        finally:
+            if connection:
+                connection.close()
 
 if __name__ == '__main__':
-    #set filename
-    Databasefilename = "mytest.db"
-    #crete database file
-    create_database(Databasefilename)
-    #verify file exists
-    files_list = os.listdir()
-    if Databasefilename in files_list:
-        print(f'file exists - {Databasefilename}')
-    
-    #create a tables
-    create_tables(Databasefilename)
-    #insert into table
-    #insert_table(Databasefilename)
-    #select data
+    #set database filename
+    Databasefilename = "FIS.db"
+    #full list of database tables for FIS data
     tables = ["INVENTORY","SUPPLIES","MATERIAL_ORDER","CUSTOMER","CUSTOMER_ORDER","CUSTOMER_BILL","CUSTOMER_PAYMENT","VENDOR","VENDOR_ORDER","VENDOR_INVOICE","VENDOR_PAYMENT"]
-    #select_table(Databasefilename)
+    #get current directory
+    script_directory = os.path.dirname(os.path.abspath(__file__))
+    files_list = os.listdir(script_directory)
+    #get full file path
+    full_database_filepath = os.path.join(script_directory, Databasefilename)
+    #verify database file exists
+    if Databasefilename in files_list:
+        print(f'file exists - {full_database_filepath}')
+    else:
+        #crete database file
+        create_database(full_database_filepath)
     
+    #create a tables in bulk
+    create_tables(full_database_filepath)
+    #insert into table
+    #insert_table(full_database_filepath)
+    #select data
+    #select_table(full_database_filepath)
     #create a databse connection
-    connection = sqlite3.connect(Databasefilename)
-    
-    #print select statement
+    #bulk import
+    bulk_import(full_database_filepath,tables)
+    connection = sqlite3.connect(full_database_filepath)
+
+    #print all tables
     for table in tables:
         #print(connection.execute(f'Select * from {table}').description)
+        print(table)
         headers = connection.execute(f'Select * from {table}').description
         for header in headers:
-            print(f'{header[0]:<25}', end=" ")
+            print(f'{header[0]:<20}', end=" ")
         print()
         print(connection.execute(f'Select * from {table}').fetchall())
     connection.close()
