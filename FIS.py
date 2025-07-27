@@ -211,6 +211,7 @@ def searchDueInvoices(filename):
                 connection.close()
 
 def payments_screen():
+    os.system("cls")
     Databasefilename = "FIS.db"
     #get current directory
     script_directory = os.path.dirname(os.path.abspath(__file__))
@@ -258,10 +259,11 @@ def payments_screen():
                     sendPayment(full_database_filepath,orderID)
             case '0':
                 break
-        x = input("Press enter to continue...")
-        os.system("cls")
+        #x = input("Press enter to continue...")
+    os.system("cls")
 
 def invoices_screen():
+    os.system("cls")
     Databasefilename = "FIS.db"
     #get current directory
     script_directory = os.path.dirname(os.path.abspath(__file__))
@@ -285,10 +287,11 @@ def invoices_screen():
                     addInvoice(full_database_filepath,order)
             case '0':
                 break
-        x = input("Press enter to continue...")
-        os.system("cls")
+        #x = input("Press enter to continue...")
+    os.system("cls")
 
 if __name__ == '__main__':
+    os.system("cls")
     menu = """ 
                         *******************************************
                         Welcome to the Financial Institute Program
@@ -316,5 +319,6 @@ if __name__ == '__main__':
                 payments_screen()
             case '0':
                 break
-        x = input("Press enter to continue...")
-        os.system("cls")
+        #x = input("Press enter to continue...")
+    os.system("cls")
+    exit()
