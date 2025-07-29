@@ -2,33 +2,40 @@ import sqlite3
 import os, random
 from datetime import date, timedelta
 
-
 def searchTable(filename,tablename,idname):
         while True:
             #input number
-            inputnumber = input(f"Enter {tablename} ID: ")
+            inputnumber = input(f"Enter {tablename} ID or zero to exit: ")
             #search number query
-            sql_query_search = f"SELECT * FROM {tablename}  WHERE {idname} = '{inputnumber}';"
-            try: 
-                connection = sqlite3.connect(filename)
-                my_cursor = connection.cursor()
-                #Viewing the tables in the database
-                my_cursor = connection.execute(sql_query_search)
-                rows = my_cursor.fetchall()
-            except sqlite3.Error as e:
-                print(e)
+            if inputnumber == "0":
+                os.system("cls")
+                break
             else:
-                if rows:
-                    print(f"Data found - {rows[0]}")
-                    return rows[0]
+                sql_query_search = f"SELECT * FROM {tablename}  WHERE {idname} = '{inputnumber}';"
+                try: 
+                    connection = sqlite3.connect(filename)
+                    my_cursor = connection.cursor()
+                    #Viewing the tables in the database
+                    my_cursor = connection.execute(sql_query_search)
+                    rows = my_cursor.fetchall()
+                except sqlite3.Error as e:
+                    print(e)
                 else:
-                    print(f"no {idname} found try again...")
-            finally:
-                if connection:
-                    connection.close()
+                    if rows:
+                        os.system("cls")
+                        print(f"Data found - {rows[0]}")
+                        return rows[0]
+                    else:
+                        print(f"no {idname} found try again...")
+                finally:
+                    if connection:
+                        connection.close()
 
-def addInvoice(filename,order):
-    createquestion = input("Create Invoice from Order? (Y/N)")
+def addInvoice(filename,order,noask):
+    if noask == 0:
+        createquestion = input("Create Invoice from Order? (Y/N)")
+    else:
+        createquestion = "Y"
     if createquestion == "Y":
         VendorOrderID = order[0]
         VendorOrderTotal = order[4]
@@ -45,6 +52,7 @@ def addInvoice(filename,order):
         except sqlite3.Error as e:
             print(e)
         else:
+            os.system("cls")
             print("Invoice added")
             print('INV'+unique_invoice_id,VendorOrderID,date.today(),date.today()+ timedelta(days=30),VendorOrderTotal,'Pending',None)
         finally:
@@ -54,8 +62,11 @@ def addInvoice(filename,order):
         print("No invoice ordered")
         return
 
-def addVendorPayment(filename,invoice):
-    createquestion = input(f"Create Payment from Invoice {invoice[0]} for {invoice[4]}? (Y/N)")
+def addVendorPayment(filename,invoice,noask):
+    if noask == 0:
+        createquestion = input(f"Create Payment from Invoice {invoice[0]} for {invoice[4]}? (Y/N)")
+    else:
+        createquestion = "Y"
     if createquestion == "Y":
         VendorInvoiceID = invoice[0]
         VendorPaymentTotal = invoice[4]
@@ -81,8 +92,12 @@ def addVendorPayment(filename,invoice):
         print("No invoice ordered")
         return
 
-def updateVendorInvoiceStatus(filename,invoice,status):
-    createquestion = input(f"Update Invoice {invoice[0]} status to {status} today {date.today()}? (Y/N)")
+def updateVendorInvoiceStatus(filename,invoice,status,noask):
+    if noask == 0:
+        createquestion = input(f"Update Invoice {invoice[0]} status to {status} today {date.today()}? (Y/N)")
+    else:
+        createquestion = "Y"
+    
     if createquestion == "Y":
         InvoiceID = invoice[0]
         VendorOrderID = invoice[1]
@@ -115,8 +130,11 @@ def updateVendorInvoiceStatus(filename,invoice,status):
         print("No invoice ordered")
         return
 
-def updateVendorOrderStatus(filename,orderID,status):
-    createquestion = input(f"Update Order {orderID} status to {status}? (Y/N)")
+def updateVendorOrderStatus(filename,orderID,status,noask):
+    if noask == 0:
+        createquestion = input(f"Update Order {orderID} status to {status}? (Y/N)")
+    else:
+        createquestion = "Y"
     if createquestion == "Y":
         sql_statement = """
         update VENDOR_ORDER
@@ -210,6 +228,54 @@ def searchDueInvoices(filename):
             if connection:
                 connection.close()
 
+def searchOrders(filename,orderstatus):
+    while True:
+        #search orders number
+        sql_query_search = f"SELECT * FROM VENDOR_ORDER  WHERE VendorOrderStatus = '{orderstatus}';"
+        try: 
+            connection = sqlite3.connect(filename)
+            my_cursor = connection.cursor()
+            #Viewing the tables in the database
+            my_cursor = connection.execute(sql_query_search)
+            rows = my_cursor.fetchall()
+        except sqlite3.Error as e:
+            print(e)
+        else:
+            if rows:
+                for row in rows:
+                    print(f"{row}")
+                return rows
+            else:
+                print("no orders found try again...")
+                return
+        finally:
+            if connection:
+                connection.close()
+
+def searchInvoices(filename,orderstatus):
+    while True:
+        #search invoice number
+        sql_query_search = f"SELECT * FROM VENDOR_INVOICE  WHERE VendorInvoicePaymentStatus = '{orderstatus}';"
+        try: 
+            connection = sqlite3.connect(filename)
+            my_cursor = connection.cursor()
+            #Viewing the tables in the database
+            my_cursor = connection.execute(sql_query_search)
+            rows = my_cursor.fetchall()
+        except sqlite3.Error as e:
+            print(e)
+        else:
+            if rows:
+                for row in rows:
+                    print(f"{row}")
+                return rows
+            else:
+                print("no invoices found try again...")
+                return
+        finally:
+            if connection:
+                connection.close()
+
 def payments_screen():
     os.system("cls")
     Databasefilename = "FIS.db"
@@ -222,27 +288,28 @@ def payments_screen():
                                        FIS - Payments
                         *******************************************
                  1. Pay Vendor on Due Date         2. Send payment\n
+                 3. Search Pending Invoices\n
                  0. Back to Main Menu
                  >>>"""
     while True:
         choice = input(menu)
         match choice:
-            case '1':
+            case '1':#pay based on due dates
                 invoices = searchDueInvoices(full_database_filepath)
                 if invoices:
-                    continuetoproccess = input("Pay these Invoices? (Y/N)")
-                    if continuetoproccess == 'Y':
                         for invoice in invoices:
-                            status = addVendorPayment(full_database_filepath,invoice)
-                            #update invoice
-                            orderID = updateVendorInvoiceStatus(full_database_filepath,invoice,status)
-                            #update order
-                            updateVendorOrderStatus(full_database_filepath,orderID,'Completed')
-                            #email payment
-                            sendPayment(full_database_filepath,orderID)
-                    else:
-                        print()
-            case '2':
+                            continuetoproccess = input(f"Pay invoice {invoice[0]}? (Y/N)")
+                            if continuetoproccess == 'Y':
+                                status = addVendorPayment(full_database_filepath,invoice,1)
+                                #update invoice
+                                orderID = updateVendorInvoiceStatus(full_database_filepath,invoice,status,1)
+                                #update order
+                                updateVendorOrderStatus(full_database_filepath,orderID,'Completed',1)
+                                #email payment
+                                sendPayment(full_database_filepath,orderID)
+                            else:
+                                print()
+            case '2':#send payment
                 #find the invoice to pay
                 #invoice = searchInvoice(full_database_filepath)
                 invoice = searchTable(full_database_filepath,'VENDOR_INVOICE','InvoiceID')
@@ -250,15 +317,23 @@ def payments_screen():
                     print("Already Paid")
                 else:
                 #add payment
-                    status = addVendorPayment(full_database_filepath,invoice)
-                    #update invoice
-                    orderID = updateVendorInvoiceStatus(full_database_filepath,invoice,status)
-                    #update order
-                    updateVendorOrderStatus(full_database_filepath,orderID,'Completed')
-                    #email payment
-                    sendPayment(full_database_filepath,orderID)
+                    status = addVendorPayment(full_database_filepath,invoice,0)
+                    if status:
+                        #update invoice
+                        orderID = updateVendorInvoiceStatus(full_database_filepath,invoice,status,1)
+                        if orderID:
+                            #update order
+                            updateVendorOrderStatus(full_database_filepath,orderID,'Completed',1)
+                            #email payment
+                            sendPayment(full_database_filepath,orderID)
+            case '3':#search pending invoices
+                os.system('cls')
+                searchInvoices(full_database_filepath,'Pending')
             case '0':
                 break
+            case _:
+                os.system("cls")
+                print("Invalid Input")
         #x = input("Press enter to continue...")
     os.system("cls")
 
@@ -273,20 +348,27 @@ def invoices_screen():
                         *******************************************
                                        FIS - Invoices
                         *******************************************
-                 1. Add Invoice\n
-                 0. Back to Main Menu
+                      1. Add Invoice              2. Seach Pending Orders\n
+                      0. Back to Main Menu
                  >>>"""
     while True:
         choice = input(menu)
         match choice:
             case '1':
                 order = searchTable(full_database_filepath,'VENDOR_ORDER','VendorOrderID')
-                if order[5] == 'Completed':
-                    print('Order Already Completed')
-                else:
-                    addInvoice(full_database_filepath,order)
+                if order:
+                    if order[5] == 'Completed':
+                        print('Order Already Completed')
+                    else:
+                        addInvoice(full_database_filepath,order,0)
             case '0':
                 break
+            case '2':
+                os.system('cls')
+                searchOrders(full_database_filepath,'Pending')
+            case _:
+                os.system("cls")
+                print("Invalid Input")
         #x = input("Press enter to continue...")
     os.system("cls")
 
@@ -319,6 +401,9 @@ if __name__ == '__main__':
                 payments_screen()
             case '0':
                 break
+            case _:
+                os.system("cls")
+                print("Invalid Input")
         #x = input("Press enter to continue...")
     os.system("cls")
     exit()
